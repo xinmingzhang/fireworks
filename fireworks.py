@@ -6,7 +6,7 @@ COLORS = [(1.0,0.5,0.5),(1.0,0.75,0.5),(1.0,1.0,0.5),(0.75,1.0,0.5),
           (0.5,0.5,1.0),(0.75,0.5,1.0),(1.0,0.5,1.0),(1.0,0.5,0.75)]
 
 class Particle(object):
-    def __init__(self,x,y,z,speed):
+    def __init__(self,x,y,z,speed,color):
         self.life = 1.0
         self.fade = random.random()/10.0 + 0.003
         self.x = x
@@ -25,7 +25,7 @@ class Particle(object):
         self.vertex_list = self.batch.add(4, GL_TRIANGLE_STRIP, self.group,
             'v3f', 'c3f', ('t2f',(1,1,0,1,1,0,0,0)))
         self.vertex_list.vertices[0:12] = [self.x+0.5,self.y+0.5, self.z,self.x-0.5,self.y+0.5,self.z,self.x+0.5,self.y-0.5,self.z,self.x-0.5,self.y-0.5,self.z] 
-        self.vertex_list.colors[0:12] = random.choice(COLORS) * 4
+        self.vertex_list.colors[0:12] = color * 4
 
     def update(self):
         self.life -= self.fade
@@ -50,7 +50,8 @@ class Fireworks(object):
         y = random.randint(-2,4)
         z = random.randint(-2,1)
         speed = random.randint(5,10)
-        self.fireworks = [Particle(x,y,z,speed) for i in range(100)]
+        color = random.choice(COLORS)
+        self.fireworks = [Particle(x,y,z,speed,color) for i in range(100)]
         
     def draw(self):
         for i in self.fireworks:
